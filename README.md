@@ -78,7 +78,13 @@ npm install --save-dev karma-sourcemap-writer
   };
   ```
 
-5. Run `remap-istanbul` to generate the report
+5. Run karma. This will generate `tests.webpack.js.map` beside `tests.webpack.js`
+
+  ```
+  karma start
+  ```
+
+6. Run `remap-istanbul` to generate the report
 
   ```
   remap-istanbul -i coverage/coverage-final.json -o coverage/html-report -t html
