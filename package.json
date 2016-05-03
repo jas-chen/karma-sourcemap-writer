@@ -1,0 +1,30 @@
+{
+  "name": "karma-sourcemap-writer",
+  "version": "0.1.0",
+  "description": "Sourcemap writer for karma-webpack to work with istanbul.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jas-chen/karma-sourcemap-writer.git"
+  },
+  "keywords": [
+    "karma",
+    "webpack",
+    "karma-plugin",
+    "karma-preprocessor",
+    "karma-webpack",
+    "source-maps"
+  ],
+  "author": "Jas Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jas-chen/karma-sourcemap-writer/issues"
+  },
+  "homepage": "https://github.com/jas-chen/karma-sourcemap-writer#readme",
+  "dependencies": {
+    "graceful-fs": "^4.1.3"
+  }
+}
