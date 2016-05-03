@@ -10,6 +10,12 @@ The codes were transpiled by webpack loaders so the coverage is not accurate.
 ## The Solution
 Use karma-sourcemap-writer to write source map file into right place and let [remap-istanbul](https://github.com/SitePen/remap-istanbul) remap Istanbul code coverage information to its original source positions.
 
+![demo 1](./demo/demo_1.png)
+
+![demo 2](./demo/demo_2.png)
+
+![demo 3](./demo/demo_3.png)
+
 ## Install
 ```
 npm install --save-dev karma-sourcemap-writer
@@ -89,3 +95,6 @@ npm install --save-dev karma-sourcemap-writer
   ```
   remap-istanbul -i coverage/coverage-final.json -o coverage/html-report -t html
   ```
+
+## Example project
+[React Starter Kit](https://github.com/jas-chen/react-starter-kit)
