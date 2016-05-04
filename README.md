@@ -96,5 +96,8 @@ npm install --save-dev karma-sourcemap-writer
   remap-istanbul -i coverage/coverage-final.json -o coverage/html-report -t html
   ```
 
+## Remove unwanted information
+There will be lots of info in the report such as webpack generated code and npm modules, you can run a script to remove them. Thanks to @otbe for [the solution](https://github.com/SitePen/remap-istanbul/issues/51#issuecomment-216466344).
+
 ## Example project
 [React Starter Kit](https://github.com/jas-chen/react-starter-kit)
