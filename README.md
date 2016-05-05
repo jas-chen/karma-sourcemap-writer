@@ -107,6 +107,7 @@ npm install --save-dev karma-sourcemap-writer
 
   const remappedJson = require('./coverage/coverage-remapped.json');
   const coverage = Object.keys(remappedJson).reduce((result, source) => {
+    // match .js files under src/
     if (source.match(/^src\/.*\.js$/)) {
       result[source] = remappedJson[source];
     }
