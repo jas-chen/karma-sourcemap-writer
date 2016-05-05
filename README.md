@@ -14,8 +14,6 @@ Use karma-sourcemap-writer to write source map file into right place and let [re
 
 ![demo 2](./demo/demo_2.png)
 
-![demo 3](./demo/demo_3.png)
-
 ## Install
 ```
 npm install --save-dev karma-sourcemap-writer
@@ -40,7 +38,7 @@ npm install --save-dev karma-sourcemap-writer
   //# sourceMappingURL=tests.webpack.js.map
   ```
 
-4. Apply `karma-sourcemap-writer`
+4. Apply `karma-sourcemap-writer` and [`karma-coverage`](https://github.com/karma-runner/karma-coverage)
 
   ```js
   const webpackConfig = require('./webpack/config.test.js');
@@ -58,7 +56,7 @@ npm install --save-dev karma-sourcemap-writer
           'webpack',
           'sourcemap',
           'sourcemap-writer', // important!
-          'coverage'
+          'coverage'          // important!
         ]
       },
       reporters: ['mocha', 'coverage'],
@@ -78,26 +76,55 @@ npm install --save-dev karma-sourcemap-writer
         'karma-mocha-reporter',
         'karma-sourcemap-loader',
         'karma-sourcemap-writer', // important!
-        'karma-coverage'
+        'karma-coverage'          // important!
       ]
     });
   };
   ```
 
-5. Run karma. This will generate `tests.webpack.js.map` beside `tests.webpack.js`
+5. Run karma. This will generate `coverage/coverage-final.json` and `tests.webpack.js.map` beside `tests.webpack.js`
 
   ```
   karma start
   ```
 
-6. Run `remap-istanbul` to generate the report
+6. Run `remap-istanbul` to generate mapped report
 
   ```
-  remap-istanbul -i coverage/coverage-final.json -o coverage/html-report -t html
+  remap-istanbul -i coverage/coverage-final.json -o coverage/coverage-remapped.json -t json
   ```
 
-## Remove unwanted information
-There will be lots of info in the report such as webpack generated code and npm modules, you can run a script to remove them. Thanks to @otbe for [the solution](https://github.com/SitePen/remap-istanbul/issues/51#issuecomment-216466344).
+7. Generate clean coverage report
+  > At this stage there will be lots of info in the report such as webpack generated code and npm modules, we have to run a script to remove them. Thanks to @otbe for [the solution](https://github.com/SitePen/remap-istanbul/issues/51#issuecomment-216466344).
+  ![demo 2](./demo/demo_3.png)
+
+  Create a node script and execute it.
+
+  ```js
+  const istanbul = require('istanbul');
+  const collector = new istanbul.Collector();
+  const reporter = new istanbul.Reporter();
+
+  const remappedJson = require('./coverage/coverage-remapped.json');
+  const coverage = Object.keys(remappedJson).reduce((result, source) => {
+    if (source.match(/^src\/.*\.js$/)) {
+      result[source] = remappedJson[source];
+    }
+
+    return result;
+  }, {});
+
+  collector.add(coverage);
+
+  reporter.add('html');
+  reporter.write(
+    collector,
+    true,
+    () => console.log('open coverage/index.html to see the coverage report.')
+  );
+
+  ```
+  Done.
 
 ## Example project
 [React Starter Kit](https://github.com/jas-chen/react-starter-kit)
