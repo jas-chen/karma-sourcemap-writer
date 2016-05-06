@@ -20,22 +20,28 @@ npm install --save-dev karma-sourcemap-writer
 ```
 
 ## Getting started
-1. Setup karma-webpack in the [alternative way](https://github.com/webpack/karma-webpack#alternative-usage).
-2. Set `devtool` to `inline-source-map`
+1. Setup karma-webpack in the [alternative way](https://github.com/webpack/karma-webpack#alternative-usage). Let's call this file `tests.webpack.js`.
+
+  ```
+  const context = require.context('./test', true, /.spec\.js$/);
+  context.keys().forEach(context);
+  ```
+
+2. Append `sourceMappingURL` to `tests.webpack.js`.
+
+  ```
+  const context = require.context('./test', true, /.spec\.js$/);
+  context.keys().forEach(context);
+  //# sourceMappingURL=tests.webpack.js.map
+  ```
+
+3. Set `devtool` to `inline-source-map`
 
   ```
   webpack: {
     // ...
       devtool: 'inline-source-map'
   }
-  ```
-
-3. Append `sourceMappingURL` to `test.webpack.js`
-
-  ```
-  const context = require.context('./test', true, /.spec\.js$/);
-  context.keys().forEach(context);
-  //# sourceMappingURL=tests.webpack.js.map
   ```
 
 4. Apply `karma-sourcemap-writer` and [`karma-coverage`](https://github.com/karma-runner/karma-coverage)
@@ -59,7 +65,10 @@ npm install --save-dev karma-sourcemap-writer
           'coverage'          // important!
         ]
       },
-      reporters: ['mocha', 'coverage'],
+      reporters: [
+        'mocha',
+        'coverage'            // important!
+      ],
       webpack: webpackConfig,
       webpackServer: {
         noInfo: true
@@ -95,7 +104,7 @@ npm install --save-dev karma-sourcemap-writer
   ```
 
 7. Generate clean coverage report
-  > At this stage there will be lots of info in the report such as webpack generated code and npm modules, we have to run a script to remove them. Thanks to @otbe for [the solution](https://github.com/SitePen/remap-istanbul/issues/51#issuecomment-216466344).
+  > At this stage this report contains lots of unrelated coverage information, we have to run a script to remove them. Thanks to @otbe for [the solution](https://github.com/SitePen/remap-istanbul/issues/51#issuecomment-216466344).
   ![demo 2](./demo/demo_3.png)
 
   Create a node script and execute it.
@@ -107,7 +116,7 @@ npm install --save-dev karma-sourcemap-writer
 
   const remappedJson = require('./coverage/coverage-remapped.json');
   const coverage = Object.keys(remappedJson).reduce((result, source) => {
-    // match .js files under src/
+    // only keep js files under src/
     if (source.match(/^src\/.*\.js$/)) {
       result[source] = remappedJson[source];
     }
