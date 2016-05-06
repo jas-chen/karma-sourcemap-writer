@@ -13,9 +13,10 @@
   "keywords": [
     "karma",
     "webpack",
+    "coverage",
+    "istanbul",
     "karma-plugin",
     "karma-preprocessor",
-    "karma-webpack",
     "source-maps"
   ],
   "author": "Jas Chen",
